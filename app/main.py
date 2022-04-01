@@ -1,6 +1,6 @@
 from tokenize import Double
 from fastapi import FastAPI
-from mangum import Mangum
+# from mangum import Mangum
 import numpy as np
 import pandas as pd
 import torch
@@ -539,4 +539,4 @@ def suicide(sentence:Entities):
     prediction = model(tensor, length_tensor)                  #prediction 
     return {"Prediction":prediction.item()}
 
-handler = Mangum(app)
+# handler = Mangum(app)

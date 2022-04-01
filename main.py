@@ -1,27 +1,16 @@
-from tokenize import Double
 from fastapi import FastAPI
-# from mangum import Mangum
-import numpy as np
-import pandas as pd
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 from pydantic import BaseModel
-import torch.optim as optim
 import pickle
-
-from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
-from torchtext.data import Field, TabularDataset, BucketIterator
-import torchtext.data as d
-import torchtext
-
-import pandas as pd
-import numpy as np
 import re
-from nltk import word_tokenize
 from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
 import nltk
+import string
+from nltk.stem import SnowballStemmer
+import spacy
+nlp = spacy.load('en_core_web_lg')
+
 nltk.download('stopwords')
 stop_words = stopwords.words('english')
 
@@ -342,20 +331,18 @@ def clean_contractions(text, mapping):
     text = ' '.join([mapping[t] if t in mapping else t for t in text.split(" ")])
     return text
 
-import string
 PUNCT_TO_REMOVE = string.punctuation
 def remove_punctuation(text):
     """custom function to remove the punctuation"""
     return text.translate(str.maketrans('', '', PUNCT_TO_REMOVE))
 
-from nltk.corpus import stopwords
+
 ", ".join(stopwords.words('english'))
 STOPWORDS = set(stopwords.words('english'))
 def remove_stopwords(text):
     """custom function to remove the stopwords"""
     return " ".join([word for word in str(text).split() if word not in STOPWORDS])
 
-from nltk.stem import SnowballStemmer
 
 stemmer = SnowballStemmer('english')
 def stem_words(text):
@@ -409,8 +396,6 @@ def chat_words_conversion(text):
     return " ".join(new_text)
     
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')  
-
-import torch.nn as nn
 
 class classifier(nn.Module):
     
@@ -506,10 +491,6 @@ def pipeline(data):
   data = clean_tweet(data)
   data = clean_contractions(data, contraction_mapping)
   return data
-
-#inference 
-import spacy
-nlp = spacy.load('en_core_web_lg')
 
 class Entities(BaseModel):
     text: str

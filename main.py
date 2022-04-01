@@ -8,6 +8,9 @@ from nltk.corpus import stopwords
 import nltk
 import string
 from nltk.stem import SnowballStemmer
+from torchtext.data import Field, TabularDataset, BucketIterator
+import torchtext.data as d
+import torchtext
 import spacy
 nlp = spacy.load('en_core_web_lg')
 
